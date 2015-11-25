@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/city"
+            android:checked="true"
+            android:icon="@drawable/location"
+            android:title="城市"/>
+        <item
+            android:id="@+id/weather"
+            android:icon="@drawable/weather"
+            android:title="天气"/>
+        <item
+            android:id="@+id/customization"
+            android:icon="@drawable/magic"
+            android:title="定制"/>
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/settings"
+            android:title="设置"/>
+        <item
+            android:id="@+id/share"
+            android:icon="@drawable/share"
+            android:title="分享"/>
+        <item
+            android:id="@+id/money"
+            android:icon="@drawable/trophy"
+            android:title="赞助"/>
+
+    </group>
+</menu>
