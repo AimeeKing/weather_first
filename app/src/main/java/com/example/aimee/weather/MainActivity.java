@@ -1,49 +1,33 @@
 package com.example.aimee.weather;
 
-
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
-//import org.apache.http.util.EncodingUtils;
-
-
 import org.apache.http.util.EncodingUtils;
 
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,AdapterView.OnItemSelectedListener {
+import java.io.InputStream;
+
+public class MainActivity extends AppCompatActivity {
     private Handler handler;
-    private Handler handler1;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -57,33 +41,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private TextView text;
     private SimpleCursorAdapter scadapter;
     private ListView list;
+    private SharedPreferences sh;
     private Cursor cr;
     private SQLiteDatabase dbread;
-    private YourObjectSpinnerAdapter spinnerAdapter;
-    private SearchView searchView;
-    private  MenuItem searchItem;
-    private ArrayList<weather_fragment> fragments;
-    private android.support.v4.app.FragmentTransaction fragmentTransaction;
-    //  private Spinner spinner;
-  //  private ArrayAdapter<String> adapter;
-   // String [] datas;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragments= new ArrayList<>();
-        weather_fragment fragment = new weather_fragment("杭州");
-        fragments.add(fragment);
-         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame,fragment);
-        fragmentTransaction.commit();
-        /*DB的设置*/
-        db=new CityDB(this,NAME,null,VERSION);
-
-
-
-
     /*
     在新的框架和支持包下，我们可以实现以下功能：首先使用Toolbar来代替ActionBar，
     这样我们就能够把ActionBar嵌入到我们的View体系中，然后我们"禁用"系统的status bar，
@@ -106,25 +70,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        /*spinner的设置*/
-        View SpinnerContainer= LayoutInflater.from(this).inflate(R.layout.toolbar_spinner,toolbar,false);
-        /*
-        *Parameters
-        parser	XML dom node containing the description of the view hierarchy.
-        root	Optional view to be the parent of the generated hierarchy (if attachToRoot is true), or else simply an object that provides a set of LayoutParams values for root of the returned hierarchy (if attachToRoot is false.)
-        attachToRoot	Whether the inflated hierarchy should be attached to the root parameter? If false, root is only used to create the correct subclass of LayoutParams for the root view in the XML.
-         */
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        toolbar.addView(SpinnerContainer, lp);
-        spinnerAdapter = new YourObjectSpinnerAdapter();
-        spinnerAdapter.addItem("杭州");
-
-        Spinner spinner = (Spinner) SpinnerContainer.findViewById(R.id.tool_barspinner);
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(this);
-
-        /*drawlayout 的设置*/
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
         mActionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close)
         {
@@ -159,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     case R.id.city:
                         Toast.makeText(getApplicationContext(),"city Selected",Toast.LENGTH_SHORT).show();
                         content_fragment fragment = new content_fragment();
-                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame,fragment);
                         fragmentTransaction.commit();
                         return true;
@@ -190,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
 
         handler=new Handler();
-        handler1=new Handler();
         sharedPreferences=getSharedPreferences("Firsttime",MODE_PRIVATE);
         Boolean isfirst=sharedPreferences.getBoolean("isfirst",true);
         if(isfirst)
@@ -214,25 +158,21 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 }
             }).start();
         }
-      //  handleIntent(getIntent());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        searchItem=menu.findItem(R.id.add);
-//        SearchManager searchManager=(SearchManager)MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
-        searchView=null;
+        MenuItem searchItem=menu.findItem(R.id.add);
+        SearchManager searchManager=(SearchManager)MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView=null;
         if(searchItem!=null) {
             searchView = (SearchView) searchItem.getActionView();
         }
         if(searchView!=null)
         {
-            //searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
-            searchView.setOnQueryTextListener(MainActivity.this);
-            
-
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
         }
         return true;
     }
@@ -252,19 +192,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(getIntent());
-    }
 
-    private void handleIntent(Intent intent) {
-        if(Intent.ACTION_SEARCH.equals((intent.getAction())))
-        {
-            String query=intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(getBaseContext(),"you search"+query
-                    ,Toast.LENGTH_LONG).show();
-        }
-    }
 
     public boolean write(String str) {
 
@@ -322,132 +250,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             int num=in.available();
             byte[] buffer=new byte[num];
             in.read(buffer);
-            str= EncodingUtils.getString(buffer, "utf-8");
+            str= EncodingUtils.getString(buffer,"utf-8");
 
 
         }catch(Exception ex)
         {
-          Log.i("error",ex.toString());
 
         }
         return str;
     }
-/*searchview 的监听器*/
-    @Override
-    public boolean onQueryTextSubmit(final String query) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                handler1.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        String ct_id;
-                        if(dbread==null)
-                            dbread=db.getReadableDatabase();
-                        cr=dbread.query("CITYID",null,"cityname=?",new String[]{query},null,null,null);
-                        if(cr.getCount()<1)
-                            Toast.makeText(getBaseContext(),"you search"+query+" can not find"
-                                    ,Toast.LENGTH_LONG).show();
-                        else
-                        while (cr.moveToNext()) {
-                            ct_id=cr.getString(cr.getColumnIndex("cityid"));
-                            Toast.makeText(getBaseContext(),"you search"+query+" and it id is "+ct_id
-                                    ,Toast.LENGTH_LONG).show();
-                            spinnerAdapter.addItem(query);
-                            spinnerAdapter.notifyDataSetChanged();
-                        /*
-                        *   是不是这里新建一个layout，然后在要用的时候再放进去
-                        *
-                        */
-                            weather_fragment w=new weather_fragment(query);
-                            fragments.add(w);
-                        }
-
-                    }
-                });
-            }
-        }).start();
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-
-        return false;
-    }
-    /*spinner 点击的监听器*/
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String str=(String)parent.getItemAtPosition(position);
-        Toast.makeText(getBaseContext(),"have Click "+str,Toast.LENGTH_LONG).show();
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragments.get(position));
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-
-    private class YourObjectSpinnerAdapter extends BaseAdapter {
-        private List<String> mItems = new ArrayList<>();
-
-        public void clear() {
-            mItems.clear();
-        }
-
-        public void addItem(String yourObject) {
-            mItems.add(yourObject);
-        }
-
-        public void addItems(List<String> yourObjectList) {
-            mItems.addAll(yourObjectList);
-        }
-
-        @Override
-        public int getCount() {
-            return mItems.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mItems.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getDropDownView(int position, View view, ViewGroup parent) {
-            if (view == null || !view.getTag().toString().equals("DROPDOWN")) {
-                view = getLayoutInflater().inflate(R.layout.toolbar_spinner_item_dropdown, parent, false);
-                view.setTag("DROPDOWN");
-            }
-
-            TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText(getTitle(position));
-
-            return view;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            if (view == null || !view.getTag().toString().equals("NON_DROPDOWN")) {
-                view = getLayoutInflater().inflate(R.layout.toolbar_spinner_item_action, parent, false);
-                view.setTag("NON_DROPDOWN");
-            }
-            TextView textView = (TextView) view.findViewById(android.R.id.text1);
-            textView.setText(getTitle(position));
-            return view;
-        }
-
-        private String getTitle(int position) {
-            return position >= 0 && position < mItems.size() ? mItems.get(position) : "";
-        }
-    }
-
 }
