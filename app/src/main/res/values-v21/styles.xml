@@ -7,4 +7,11 @@
         <item name="android:statusBarColor">@color/PrimaryDarkColor</item>
         <!-- Customize your theme here.@android:color/transparent -->
     </style>
+
+    <style name="Widget.MyApp.HeaderBar.Spinner" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:dropDownSelector">?android:selectableItemBackground</item>
+        <item name="android:divider">@null</item>
+        <item name="android:overlapAnchor">true</item>
+    </style>
 </resources>

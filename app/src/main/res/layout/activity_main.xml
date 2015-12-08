@@ -17,11 +17,25 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:minHeight="?attr/actionBarSize" />
+            android:minHeight="?attr/actionBarSize" >
+            </android.support.v7.widget.Toolbar>
         <FrameLayout
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/horizontalScrollView"
+                android:layout_gravity="left|bottom" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:layout_gravity="center" />
+
         </FrameLayout>
     </LinearLayout>
  <!--The navigation drawer
