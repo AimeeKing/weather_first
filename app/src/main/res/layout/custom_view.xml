@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="400dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#1b77d2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:layout_gravity="center_horizontal">
+        <RelativeLayout
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:layout_width="fill_parent"
+
+            >
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_height="144dp"
+                android:layout_width="144dp"
+                android:background="@drawable/weather"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true">
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_width="fill_parent"
+            android:padding="6dp"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_height="0dp"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                >
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_dialog_weather"
+                    android:text="晴"
+                    android:textSize="20sp"
+                    android:textColor="#f3fff2"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_height="0dp"
+                android:layout_width="fill_parent"
+                android:layout_weight="4"
+                >
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4℃"
+                    android:textSize="32sp"
+                    android:textColor="#FFF"
+                    android:id="@+id/txt_dialog_tempnow" />
+                <TextView
+                    android:id="@+id/txt_dialog_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4/10℃"
+                    android:textColor="#FFF"
+                    android:layout_alignBottom="@+id/txt_dialog_tempnow"
+                    android:layout_toEndOf="@+id/txt_dialog_tempnow" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_height="0dp"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_add"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_height="0dp"
+                android:layout_width="fill_parent"
+                android:layout_weight="3"
+                >
+                <TextView
+                    android:id="@+id/txt_dialog_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="江干区"
+                    android:textSize="25sp"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享至"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:id="@+id/horizontalScrollView2" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btn_share_weibo"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/weibo"
+                    android:onClick="weibo_click"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_share_weixin"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/weixin"
+                    android:onClick="weixin_click"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_share_msg"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/msg"
+                    android:onClick="msg_click"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_share_email"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/email"
+                    android:onClick="email_click"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_share_blt"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/blt"
+                    android:onClick="blt_click"
+                    />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+</LinearLayout>

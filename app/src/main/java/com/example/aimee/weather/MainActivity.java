@@ -1,6 +1,7 @@
 package com.example.aimee.weather;
 
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,10 +23,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -64,9 +68,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private  MenuItem searchItem;
     private ArrayList<weather_fragment> fragments;
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
+
+
+    //share viewpage
+    private Button btn_weibo;
+    private Button btn_weixin;
+    private Button btn_msg;
+    private Button btn_email;
+    private Button btn_blt;
+    private TextView txt_city;
+    private TextView txt_temp_now;
+    private TextView txt_temp;
+    private TextView txt_weather;
+
+    private Handler mHandler;
     //  private Spinner spinner;
   //  private ArrayAdapter<String> adapter;
    // String [] datas;
+
+    //声明一个AlertDialog构造器
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +97,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         weather_fragment fragment = new weather_fragment("杭州");
         fragments.add(fragment);
          fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame,fragment);
+        fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
         /*DB的设置*/
         db=new CityDB(this,NAME,null,VERSION);
 
+        //share view page
+
+        mHandler = new Handler();
 
 
 
@@ -179,7 +203,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         Toast.makeText(getApplicationContext(),"赞助 Selected",Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.share:
-                        Toast.makeText(getApplicationContext(),"分享 Selected",Toast.LENGTH_SHORT).show();
+
+                        showCustomViewDialog();
+                        Toast.makeText(getApplicationContext(), "分享 Selected", Toast.LENGTH_SHORT).show();
+
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
@@ -217,6 +244,74 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
       //  handleIntent(getIntent());
     }
 
+    /*
+    *分享界面函数
+    * 下面多个click是不同的分享按钮
+    * showCustViewDialog是设置界面
+    *
+     */
+    public void weibo_click(View view){
+        Toast.makeText(MainActivity.this,"weibo",Toast.LENGTH_SHORT).show();
+    }
+
+    public void weixin_click(View view){
+        Toast.makeText(MainActivity.this,"weixin",Toast.LENGTH_SHORT).show();
+    }
+
+    public void msg_click(View view){
+        Toast.makeText(MainActivity.this,"message",Toast.LENGTH_SHORT).show();
+    }
+
+    public void email_click(View view){
+        Toast.makeText(MainActivity.this,"email",Toast.LENGTH_SHORT).show();
+    }
+
+    public void blt_click(View view){
+        Toast.makeText(MainActivity.this,"bluetooth",Toast.LENGTH_SHORT).show();
+    }
+    private void showCustomViewDialog(){
+        builder=new AlertDialog.Builder(this);
+
+        //builder.setTitle("分享");
+
+        /**
+         * 设置内容区域为自定义View
+         */
+        LinearLayout loginDialog= (LinearLayout) getLayoutInflater().inflate(R.layout.custom_view, null);
+
+        txt_city = (TextView) loginDialog.findViewById(R.id.txt_dialog_city);
+        txt_temp_now = (TextView) loginDialog.findViewById(R.id.txt_dialog_tempnow);
+        txt_temp = (TextView) loginDialog.findViewById(R.id.txt_dialog_temp);
+        txt_weather = (TextView) loginDialog.findViewById(R.id.txt_dialog_weather);
+
+        Thread mThread = new Thread(backwork);
+        mThread.start();
+
+
+
+        builder.setView(loginDialog);
+        builder.setCancelable(true);
+        AlertDialog dialog=builder.create();
+
+        dialog.show();
+    }
+    private Runnable backwork = new Runnable() {
+        @Override
+        public void run() {
+            updatadialog();
+        }
+    };
+    private void updatadialog(){
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                txt_city.setText("江干区");
+                txt_temp.setText("4℃/10℃");
+                txt_temp_now.setText("5℃");
+                txt_weather.setText("阴天");
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -389,6 +484,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 
 
     private class YourObjectSpinnerAdapter extends BaseAdapter {
