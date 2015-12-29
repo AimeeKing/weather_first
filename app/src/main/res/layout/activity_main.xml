@@ -19,24 +19,23 @@
             android:layout_width="match_parent"
             android:minHeight="?attr/actionBarSize" >
             </android.support.v7.widget.Toolbar>
-        <FrameLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipe">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="false"
+                android:id="@+id/scrollView">
+
+            <FrameLayout
             android:id="@+id/frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <HorizontalScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/horizontalScrollView"
-                android:layout_gravity="left|bottom" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_gravity="center" />
-
+            android:layout_height="558dp">
         </FrameLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
  <!--The navigation drawer
        <ListView android:id="@+id/left_drawer"

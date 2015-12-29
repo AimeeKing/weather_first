@@ -21,10 +21,15 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_height="144dp"
                 android:layout_width="144dp"
-                android:background="@drawable/weather"
+
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true">
 
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/img_dialog_weather" />
             </LinearLayout>
         </RelativeLayout>
 

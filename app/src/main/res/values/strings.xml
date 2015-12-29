@@ -6,4 +6,19 @@
     <string name="close">close</string>
     <string name="open">open</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_test_http_url">testHttpURL</string>
+    <string name="title_activity_setting_activity">设置</string>
+    <string name="title_activity_city_modify">删除城市</string>
+    <string name="title_activity_requiremoney">requiremoney</string>
+        <string name="require_money_1">
+         这学期真的很忙，所以呢，尽管给了我们一学期的时间，尽管在第13周的时候我们熬夜熬夜，但是APP还有很多不敬人意的地方。也有很多地方我们绞尽脑汁
+            ，堵了一学期，最后只能曲线救国的地方。但是，我们不想把它只当成一次作业，所以，有什么建议或意见，大家都抛过来吧~么么哒
+    </string>
+    <string name="require_money_2">
+        第二点想说的是，其实呢，机智的小伙伴一定已经发现，我们小组做的这款应用啊，很多地方都模仿了一款叫做琥珀天气的应用（当然只是看起来而已，代码都是我们原创的，嘻嘻），
+        而在这个所谓的赞助界面呢，我想为我们模仿的对象宣传一下。因为啊，如果你在应用商店里搜索关键字「天气」，排名前几的是像墨迹天气、天气通、91 黄历天气
+        等大厂的产品，它们的下载量动辄上千万，但这些应用野心很大，想做平台，想做社交，想做推荐等等等等。但当你打开琥珀天气时，视线立马开阔了，想找冗杂的信
+        息它都不给你机会，专注做好天气本身。在「浮躁」的大环境下，专注做最该做的事儿可能是个非常宝贵的品质了。下图是它的界面宣传图之一。
+    </string>
+    <string name="title_activity_money">赞助</string>
 </resources>
